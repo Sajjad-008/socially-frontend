@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+}
+.dark {
+  --bg: #0a0a0a;
+  --card: #0a0a0a;
+  --border: #262626;
+  --content: #fafafa;
+  --content-muted: #a3a3a3;
+}
