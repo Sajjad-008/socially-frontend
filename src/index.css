@@ -1,12 +1,76 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
+/* رنگ‌های ثابت (در هر دو تم یکسان) */
+@theme {
+  --color-brand: #3b82f6;
+  --color-brand-secondary: #7e97c0;
+  --color-brand-tertiary: #8d9cb5;
+  --color-danger: #ef4444;
+  --font-sans: Arial, sans-serif;
+  --font-mono: Consolas, monospace;
 }
+
+/* تم روشن */
+:root {
+  --bg: #ffffff;
+  --card: #ffffff;
+  --border: #e5e5e5;
+  --header: #ffffff99;
+  --content: #171717;
+  --content-muted: #737373;
+  --content-subtle: #a6a6a6;
+  --content-opposite: #fafafa;
+
+  --btn-primary: #0a0a0a;
+  --btn-primary-hover: #171717;
+  --btn-secondary: #ffffff;
+  --btn-secondary-hover: #fafafa;
+  --btn-tertiary: #e5e5e5;
+}
+
+/* تم تیره */
 .dark {
   --bg: #0a0a0a;
   --card: #0a0a0a;
   --border: #262626;
+  --header: #0a0a0a99;
   --content: #fafafa;
   --content-muted: #a3a3a3;
+  --content-subtle: #575757;
+  --content-opposite: #171717;
+
+  --btn-primary: #fafafa;
+  --btn-primary-hover: #fafafae6;
+  --btn-secondary: #0a0a0a;
+  --btn-secondary-hover: #171717;
+  --btn-tertiary: #262626;
+}
+
+/* ساخت کلاس‌های Tailwind از روی متغیرها */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-header: var(--header);
+  --color-content: var(--content);
+  --color-content-muted: var(--content-muted);
+  --color-content-subtle: var(--content-subtle);
+  --color-content-opposite: var(--content-opposite);
+  --color-btn-primary: var(--btn-primary);
+  --color-btn-primary-hover: var(--btn-primary-hover);
+  --color-btn-secondary: var(--btn-secondary);
+  --color-btn-secondary-hover: var(--btn-secondary-hover);
+  --color-btn-tertiary: var(--btn-tertiary);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--content);
+    font-family: var(--font-sans);
+  }
 }
