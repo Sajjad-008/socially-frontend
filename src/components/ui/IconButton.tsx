@@ -14,6 +14,14 @@ export interface IconButtonProps
   selected?: boolean
 }
 
+const variantClasses: Record<IconButtonVariant, string> = {
+  theme:
+    'h-9 w-9 rounded-md border border-border bg-card p-2 text-content shadow-btn-secondary hover:bg-btn-secondary-hover',
+  trash:
+    'h-8 w-8 rounded-md bg-bg p-0 text-content-muted hover:bg-btn-tertiary hover:text-danger',
+  close: 'h-4 w-4 rounded-[4px] p-0 text-content',
+}
+
 export function IconButton({
   variant,
   icon,
@@ -22,19 +30,10 @@ export function IconButton({
   className,
   ...props
 }: IconButtonProps) {
-  const variantClasses: Record<IconButtonVariant, string> = {
-    theme:
-      'h-9 w-9 rounded-[6px] border border-border bg-card p-2 text-content shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)]',
-    trash: [
-      'h-8 w-8 rounded-[6px] p-0',
-      selected ? 'bg-btn-tertiary text-danger' : 'bg-bg text-content-muted',
-    ].join(' '),
-    close: 'h-4 w-4 rounded-[4px] p-0 text-content opacity-70 dark:opacity-100',
-  }
-
   const classes = [
-    'inline-flex shrink-0 items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 disabled:cursor-not-allowed motion-reduce:transition-none',
+    'inline-flex shrink-0 items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-content-muted disabled:cursor-not-allowed motion-reduce:transition-none',
     variantClasses[variant],
+    variant === 'trash' && selected ? 'bg-btn-tertiary text-danger' : '',
     className,
   ]
     .filter(Boolean)
