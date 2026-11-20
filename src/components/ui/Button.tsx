@@ -18,7 +18,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   primary:
     'bg-btn-primary text-content-opposite shadow-sm hover:bg-btn-primary-hover disabled:opacity-50',
   secondary:
-    'border border-border bg-btn-secondary text-content shadow-sm hover:bg-btn-secondary-hover disabled:opacity-50',
+    'border border-border bg-btn-secondary text-content shadow-btn-secondary hover:bg-btn-secondary-hover disabled:opacity-50',
   tertiary:
     'bg-btn-tertiary text-content hover:bg-btn-tertiary/80 disabled:opacity-25',
   pure:
@@ -44,6 +44,7 @@ export function Button({
     'inline-flex items-center justify-center gap-2 rounded-md font-semibold leading-none text-center whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-content-muted disabled:cursor-not-allowed motion-reduce:transition-none',
     variantClasses[variant],
     sizeClasses[size],
+    icon != null && children == null && size === 'md' ? 'w-9' : undefined,
     className,
   ]
     .filter(Boolean)
