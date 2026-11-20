@@ -18,7 +18,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   primary:
     'bg-btn-primary text-content-opposite shadow-sm hover:bg-btn-primary-hover disabled:opacity-50',
   secondary:
-    'border border-border bg-btn-secondary text-content shadow-btn-secondary hover:bg-btn-secondary-hover disabled:opacity-50',
+    'border border-border bg-btn-secondary text-content shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] hover:bg-btn-secondary-hover disabled:opacity-50',
   tertiary:
     'bg-btn-tertiary text-content hover:bg-btn-tertiary/80 disabled:opacity-25',
   pure:
