@@ -185,3 +185,32 @@ export function MenuIcon(props: IconProps) {
     </Icon>
   )
 }
+
+export function ArrowLeftIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12.6667 8H3.3333" />
+      <path d="M8 12.6667L3.3333 8L8 3.3333" />
+    </Icon>
+  )
+}
+
+export function EyeIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M1.3333 8C2.6667 5.2 5.2 3.3333 8 3.3333C10.8 3.3333 13.3333 5.2 14.6667 8C13.3333 10.8 10.8 12.6667 8 12.6667C5.2 12.6667 2.6667 10.8 1.3333 8Z" />
+      <circle cx="8" cy="8" r="2" />
+    </Icon>
+  )
+}
+
+/** چشم خط‌خورده، برای حالتی که رمز نمایش داده می‌شود و با کلیک پنهان می‌شود. */
+export function EyeOffIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M1.3333 8C2.6667 5.2 5.2 3.3333 8 3.3333C10.8 3.3333 13.3333 5.2 14.6667 8C13.3333 10.8 10.8 12.6667 8 12.6667C5.2 12.6667 2.6667 10.8 1.3333 8Z" />
+      <circle cx="8" cy="8" r="2" />
+      <path d="M2.6667 2.6667L13.3333 13.3333" />
+    </Icon>
+  )
+}
