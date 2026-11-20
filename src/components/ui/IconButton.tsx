@@ -16,7 +16,7 @@ export interface IconButtonProps
 
 const variantClasses: Record<IconButtonVariant, string> = {
   theme:
-    'h-9 w-9 rounded-md border border-border bg-card p-2 text-content shadow-btn-secondary hover:bg-btn-secondary-hover',
+    'h-9 w-9 rounded-md border border-border bg-card p-2 text-content shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] hover:bg-btn-secondary-hover',
   trash:
     'h-8 w-8 rounded-md bg-bg p-0 text-content-muted hover:bg-btn-tertiary hover:text-danger',
   close: 'h-4 w-4 rounded-[4px] p-0 text-content',
