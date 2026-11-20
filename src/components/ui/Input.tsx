@@ -23,15 +23,28 @@ type MultilineInputProps = SharedInputProps &
 
 export type InputProps = SingleLineInputProps | MultilineInputProps
 
+function getControlProps<T extends InputProps>(props: T) {
+  const controlProps = { ...props }
+  delete controlProps.label
+  delete controlProps.bordered
+  delete controlProps.error
+  delete controlProps.className
+  delete controlProps.multiline
+  return controlProps
+}
+
 export function Input(props: InputProps) {
   const generatedId = useId()
   const { label, bordered = true, error, className, id } = props
   const controlId = id ?? generatedId
   const errorId = `${controlId}-error`
   const controlClassName = [
-    'w-full rounded-[6px] bg-bg px-3 text-sm text-content shadow-[0_1px_2px_rgba(0,0,0,0.05)] placeholder:text-content-muted focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-content-muted disabled:cursor-not-allowed disabled:opacity-50',
-    bordered ? 'border border-border' : 'border border-transparent',
-    error ? 'border-danger focus-visible:outline-danger' : '',
+    'w-full rounded-md bg-bg px-3 text-sm text-content shadow-[0_1px_2px_rgba(0,0,0,0.05)] placeholder:text-content-muted focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-content-muted disabled:cursor-not-allowed disabled:opacity-50',
+    error
+      ? 'border border-danger focus-visible:outline-danger'
+      : bordered
+        ? 'border border-border'
+        : 'border border-transparent',
     className,
   ]
     .filter(Boolean)
@@ -39,17 +52,9 @@ export function Input(props: InputProps) {
 
   let control
   if (props.multiline) {
-    const {
-      multiline: _multiline,
-      label: _label,
-      bordered: _bordered,
-      error: _error,
-      className: _className,
-      id: _id,
-      'aria-describedby': ariaDescribedBy,
-      'aria-invalid': ariaInvalid,
-      ...textareaProps
-    } = props
+    const textareaProps = getControlProps(props)
+    const { 'aria-describedby': ariaDescribedBy, 'aria-invalid': ariaInvalid } =
+      props
     const describedBy = [ariaDescribedBy, error ? errorId : undefined]
       .filter(Boolean)
       .join(' ') || undefined
@@ -64,17 +69,9 @@ export function Input(props: InputProps) {
       />
     )
   } else {
-    const {
-      multiline: _multiline,
-      label: _label,
-      bordered: _bordered,
-      error: _error,
-      className: _className,
-      id: _id,
-      'aria-describedby': ariaDescribedBy,
-      'aria-invalid': ariaInvalid,
-      ...inputProps
-    } = props
+    const inputProps = getControlProps(props)
+    const { 'aria-describedby': ariaDescribedBy, 'aria-invalid': ariaInvalid } =
+      props
     const describedBy = [ariaDescribedBy, error ? errorId : undefined]
       .filter(Boolean)
       .join(' ') || undefined
