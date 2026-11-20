@@ -1,6 +1,10 @@
 import type { ButtonHTMLAttributes } from 'react'
-import commentIcon from '../../assets/CommentIcon.svg?raw'
-import heartIcon from '../../assets/HeartIcon.svg?raw'
+import {
+  ChatFilledIcon,
+  ChatIcon,
+  HeartFilledIcon,
+  HeartIcon,
+} from '../icons'
 
 export type SocialActionKind = 'like' | 'comment'
 
@@ -20,20 +24,6 @@ const hoverColorClasses = {
   like: 'hover:text-danger',
   comment: 'hover:text-brand',
 } as const
-
-function ActionIcon({ source, filled }: { source: string; filled: boolean }) {
-  const markup = source
-    .replace('fill="none"', `fill="${filled ? 'currentColor' : 'none'}"`)
-    .replace('stroke="#FAFAFA"', 'stroke="currentColor"')
-
-  return (
-    <span
-      aria-hidden="true"
-      className="inline-flex shrink-0"
-      dangerouslySetInnerHTML={{ __html: markup }}
-    />
-  )
-}
 
 export function SocialAction({
   kind,
@@ -61,7 +51,17 @@ export function SocialAction({
         .filter(Boolean)
         .join(' ')}
     >
-      <ActionIcon source={kind === 'like' ? heartIcon : commentIcon} filled={selected} />
+      {kind === 'like' ? (
+        selected ? (
+          <HeartFilledIcon className="h-4 w-4 shrink-0" />
+        ) : (
+          <HeartIcon className="h-4 w-4 shrink-0" />
+        )
+      ) : selected ? (
+        <ChatFilledIcon className="h-4 w-4 shrink-0" />
+      ) : (
+        <ChatIcon className="h-4 w-4 shrink-0" />
+      )}
       <span>{count}</span>
     </button>
   )
