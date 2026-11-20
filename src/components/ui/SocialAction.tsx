@@ -42,7 +42,7 @@ export function SocialAction({
       aria-label={`${label}: ${count}`}
       aria-pressed={selected}
       className={[
-        'inline-flex h-8 w-[55px] items-center justify-center gap-2 rounded-[6px] border-0 bg-transparent px-3 py-2 text-xs leading-none transition-colors hover:bg-btn-tertiary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-content-muted motion-reduce:transition-none',
+        'inline-flex h-8 min-w-[55px] items-center justify-center gap-2 rounded-md bg-transparent px-3 py-2 text-xs leading-none transition-colors hover:bg-btn-tertiary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-content-muted motion-reduce:transition-none',
         selected ? colorClass : 'text-content',
         selected ? '' : hoverColorClasses[kind],
         selected ? 'bg-btn-tertiary' : '',
