@@ -1,5 +1,3 @@
-
-
 import { useState } from 'react'
 import { Input } from './Input'
 import type { InputProps } from './Input'
