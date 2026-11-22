@@ -10,6 +10,7 @@ import {
   type IconProps,
 } from '@/components/icons'
 import Drawer from '@/components/ui/Drawer'
+import IconButton from '@/components/ui/IconButton'
 import { useSession } from '@/hooks/useSession'
 import { useThemeStore } from '@/store/themeStore'
 
@@ -26,8 +27,6 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/profile', label: 'Profile', icon: UserIcon, requiresAuth: true },
 ]
 
-const iconButtonClass =
-  'inline-flex size-9 items-center justify-center rounded-md border border-border text-content hover:bg-btn-secondary-hover'
 const navLinkClass =
   'inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm text-content hover:bg-btn-tertiary'
 const signInClass =
@@ -41,16 +40,14 @@ export default function Navbar() {
   const items = NAV_ITEMS.filter((item) => !item.requiresAuth || isLoggedIn)
   const closeMenu = () => setMenuOpen(false)
 
-  //  بعد از merge شدن ThemeToggle با آن عوض شود
+  // TODO: بعد از merge شدن ThemeToggle نفر ۲، این دکمه با آن عوض شود
   const themeButton = (
-    <button
-      type="button"
-      onClick={toggleTheme}
+    <IconButton
+      variant="theme"
       aria-label="Toggle theme"
-      className={iconButtonClass}
-    >
-      {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
-    </button>
+      onClick={toggleTheme}
+      icon={theme === 'dark' ? <MoonIcon /> : <SunIcon />}
+    />
   )
 
   return (
@@ -79,14 +76,12 @@ export default function Navbar() {
         {/* موبایل */}
         <div className="flex items-center gap-2 md:hidden">
           {themeButton}
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
+          <IconButton
+            variant="theme"
             aria-label="Open menu"
-            className={iconButtonClass}
-          >
-            <MenuIcon />
-          </button>
+            onClick={() => setMenuOpen(true)}
+            icon={<MenuIcon />}
+          />
         </div>
       </div>
 
@@ -104,7 +99,7 @@ export default function Navbar() {
             </Link>
           )}
         </nav>
-        {/*  ProfileSummaryCard برای کاربر واردشده اینجا اضافه شود */}
+        {/* TODO: ProfileSummaryCard برای کاربر واردشده اینجا اضافه شود */}
       </Drawer>
     </header>
   )
