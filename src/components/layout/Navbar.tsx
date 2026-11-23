@@ -4,15 +4,13 @@ import {
   BellIcon,
   HomeIcon,
   MenuIcon,
-  MoonIcon,
-  SunIcon,
   UserIcon,
   type IconProps,
 } from '@/components/icons'
 import Drawer from '@/components/ui/Drawer'
 import IconButton from '@/components/ui/IconButton'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 import { useSession } from '@/hooks/useSession'
-import { useThemeStore } from '@/store/themeStore'
 
 interface NavItem {
   to: string
@@ -34,21 +32,10 @@ const signInClass =
 
 export default function Navbar() {
   const { isLoggedIn } = useSession()
-  const { theme, toggleTheme } = useThemeStore()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const items = NAV_ITEMS.filter((item) => !item.requiresAuth || isLoggedIn)
   const closeMenu = () => setMenuOpen(false)
-
-  // TODO: بعد از merge شدن ThemeToggle نفر ۲، این دکمه با آن عوض شود
-  const themeButton = (
-    <IconButton
-      variant="theme"
-      aria-label="Toggle theme"
-      onClick={toggleTheme}
-      icon={theme === 'dark' ? <MoonIcon /> : <SunIcon />}
-    />
-  )
 
   return (
     <header className="sticky top-0 z-40 h-[65px] border-b border-border bg-header backdrop-blur">
@@ -59,7 +46,7 @@ export default function Navbar() {
 
         {/* دسکتاپ */}
         <nav className="hidden items-center gap-2 md:flex" aria-label="Main">
-          {themeButton}
+          <ThemeToggle />
           {items.map(({ to, label, icon: Icon }) => (
             <Link key={to} to={to} className={navLinkClass}>
               <Icon />
@@ -75,7 +62,7 @@ export default function Navbar() {
 
         {/* موبایل */}
         <div className="flex items-center gap-2 md:hidden">
-          {themeButton}
+          <ThemeToggle />
           <IconButton
             variant="theme"
             aria-label="Open menu"
