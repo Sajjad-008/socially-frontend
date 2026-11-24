@@ -1,6 +1,8 @@
 import { LinkIcon, LocationIcon } from '@/components/icons'
 import MetaItem from '@/components/shared/MetaItem'
 import ProfileStats from '@/components/shared/ProfileStats'
+import Avatar from '@/components/ui/Avatar'
+import Card from '@/components/ui/Card'
 import type { User } from '@/types'
 
 interface ProfileSummaryCardProps {
@@ -14,23 +16,13 @@ export default function ProfileSummaryCard({
   followersCount,
   className,
 }: ProfileSummaryCardProps) {
-  const classes = [
-    'flex flex-col items-center gap-3 rounded-lg border border-border bg-card p-6',
-    className,
-  ]
+  const classes = ['flex flex-col items-center gap-3 p-6', className]
     .filter(Boolean)
     .join(' ')
 
-  //  بعد از merge شدن Card ، <section> با <Card> عوض شود
   return (
-    <section className={classes}>
-      {/*  بعد از merge شدن Avatar ، با <Avatar name={user.name} src={user.avatarUrl} size="xl" /> عوض شود */}
-      <div
-        aria-hidden="true"
-        className="flex size-20 items-center justify-center rounded-full bg-brand-secondary text-2xl text-content-opposite"
-      >
-        {user.name.charAt(0).toUpperCase()}
-      </div>
+    <Card className={classes}>
+      <Avatar name={user.name} src={user.avatarUrl} size="lg" />
 
       <div className="flex flex-col items-center gap-1 text-center">
         <h2 className="text-sm font-bold text-content">{user.name}</h2>
@@ -49,6 +41,6 @@ export default function ProfileSummaryCard({
         <MetaItem icon={<LocationIcon />}>{user.location || 'No location'}</MetaItem>
         <MetaItem icon={<LinkIcon />}>{user.website || 'No website'}</MetaItem>
       </div>
-    </section>
+    </Card>
   )
 }
