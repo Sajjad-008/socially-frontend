@@ -3,6 +3,7 @@ import UserBadge from '@/components/shared/UserBadge'
 import SocialAction from '@/components/ui/SocialAction'
 import IconButton from '@/components/ui/IconButton'
 import { TrashIcon } from '@/components/icons'
+import type { ReactNode } from 'react'
 
 interface PostCardProps {
   post: Post
@@ -12,6 +13,10 @@ interface PostCardProps {
   onLike: () => void
   onToggleComments: () => void
   onDelete?: () => void
+  /** کامنت‌ها باز است؟ دکمه کامنت را انتخاب‌شده نشان می‌دهد. */
+  commentsOpen?: boolean
+  /** محتوای اضافه زیر دکمه‌ها (مثل CommentSection) */
+  children?: ReactNode
 }
 
 function PostCard({
@@ -22,6 +27,8 @@ function PostCard({
   onLike,
   onToggleComments,
   onDelete,
+  commentsOpen = false,
+  children,
 }: PostCardProps) {
   return (
     <article className="border-b border-border bg-card p-4">
@@ -49,13 +56,15 @@ function PostCard({
           selected={liked}
           onClick={onLike}
         />
-
         <SocialAction
           kind="comment"
           count={post.commentsCount}
+          selected={commentsOpen}
           onClick={onToggleComments}
         />
       </div>
+
+      {children}
     </article>
   )
 }
