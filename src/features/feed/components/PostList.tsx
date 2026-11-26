@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { Post, User } from '@/types'
 import PostCard from './PostCard'
 import Skeleton from '@/components/ui/Skeleton'
@@ -12,6 +13,8 @@ interface PostListProps {
   onLike: (postId: string) => void
   onToggleComments: (postId: string) => void
   onDelete?: (postId: string) => void
+  openCommentsId?: string | null
+  renderComments?: (post: Post) => ReactNode
 }
 
 function PostList({
@@ -23,6 +26,8 @@ function PostList({
   onLike,
   onToggleComments,
   onDelete,
+  openCommentsId = null,
+  renderComments,
 }: PostListProps) {
   if (loading) {
     return (
@@ -59,7 +64,10 @@ function PostList({
             onLike={() => onLike(post.id)}
             onToggleComments={() => onToggleComments(post.id)}
             onDelete={onDelete ? () => onDelete(post.id) : undefined}
-          />
+            commentsOpen={openCommentsId === post.id}
+          >
+            {openCommentsId === post.id && renderComments?.(post)}
+          </PostCard>
         )
       })}
     </div>
