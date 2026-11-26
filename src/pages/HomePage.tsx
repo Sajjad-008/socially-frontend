@@ -2,17 +2,16 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '@/components/layout/AppLayout'
 import ProfileSummaryCard from '@/components/shared/ProfileSummaryCard'
-import Card from '@/components/ui/Card'
 import Skeleton from '@/components/ui/Skeleton'
 import WelcomeCard from '@/features/auth/components/WelcomeCard'
 import CreatePost from '@/features/feed/components/CreatePost'
 import PostComments from '@/features/feed/components/PostComments'
 import PostList from '@/features/feed/components/PostList'
+import FollowSuggestions from '@/features/follow/components/FollowSuggestions'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useSession } from '@/hooks/useSession'
 import { usePostsStore } from '@/store/postsStore'
 import { useUsersStore } from '@/store/usersStore'
-import FollowSuggestions from '@/features/follow/components/FollowSuggestions'
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -69,30 +68,28 @@ export default function HomePage() {
       <div className="flex flex-col gap-4">
         {isLoggedIn && user && <CreatePost currentUser={user} />}
 
-        <Card className="overflow-hidden">
-          <PostList
-            posts={posts}
-            users={users}
-            currentUserId={user?.id ?? ''}
-            loading={feedLoading}
-            likedPostIds={likedPostIds}
-            onLike={handleLike}
-            onToggleComments={handleToggleComments}
-            onDelete={isLoggedIn ? deletePost : undefined}
-            openCommentsId={openCommentsId}
-            renderComments={(post) =>
-              user ? (
-                <PostComments
-                  className="mt-3"
-                  postId={post.id}
-                  currentUser={user}
-                  users={users}
-                  onCommentAdded={fetchPosts}
-                />
-              ) : null
-            }
-          />
-        </Card>
+        <PostList
+          posts={posts}
+          users={users}
+          currentUserId={user?.id ?? ''}
+          loading={feedLoading}
+          likedPostIds={likedPostIds}
+          onLike={handleLike}
+          onToggleComments={handleToggleComments}
+          onDelete={isLoggedIn ? deletePost : undefined}
+          openCommentsId={openCommentsId}
+          renderComments={(post) =>
+            user ? (
+              <PostComments
+                className="mt-4"
+                postId={post.id}
+                currentUser={user}
+                users={users}
+                onCommentAdded={fetchPosts}
+              />
+            ) : null
+          }
+        />
       </div>
     </AppLayout>
   )

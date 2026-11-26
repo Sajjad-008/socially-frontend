@@ -18,7 +18,7 @@ function UserBadge({ user, meta, layout = 'stacked', linked = true }: UserBadgeP
       <div className="flex min-w-0 items-center gap-3">
         <Avatar name={user.name} src={user.avatarUrl} size="md" />
 
-        <div className="flex min-w-0 flex-wrap items-center gap-x-1 text-sm">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-2 text-sm">
           <span className={`font-semibold text-content ${nameHover}`}>{user.name}</span>
           <span className="text-content-muted">@{user.username}</span>
           {meta && <span className="text-content-muted">• {meta}</span>}
