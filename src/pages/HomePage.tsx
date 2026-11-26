@@ -8,12 +8,11 @@ import WelcomeCard from '@/features/auth/components/WelcomeCard'
 import CreatePost from '@/features/feed/components/CreatePost'
 import PostComments from '@/features/feed/components/PostComments'
 import PostList from '@/features/feed/components/PostList'
-import WhoToFollow from '@/features/follow/components/WhoToFollow'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useSession } from '@/hooks/useSession'
 import { usePostsStore } from '@/store/postsStore'
 import { useUsersStore } from '@/store/usersStore'
-import { getFollowersCount, getSuggestedUsers } from '@/utils/userSelectors'
+import FollowSuggestions from '@/features/follow/components/FollowSuggestions'
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -22,7 +21,6 @@ export default function HomePage() {
 
   const users = useUsersStore((state) => state.users)
   const fetchUsers = useUsersStore((state) => state.fetchUsers)
-  const toggleFollow = useUsersStore((state) => state.toggleFollow)
 
   const posts = usePostsStore((state) => state.posts)
   const postsLoading = usePostsStore((state) => state.loading)
@@ -53,16 +51,6 @@ export default function HomePage() {
     ? posts.filter((post) => post.likedByIds.includes(user.id)).map((post) => post.id)
     : []
 
-  const suggestedUsers = user
-    ? getSuggestedUsers(users, user.id).map((suggested) => ({
-        id: suggested.id,
-        name: suggested.name,
-        username: suggested.username,
-        avatarUrl: suggested.avatarUrl,
-        followersCount: getFollowersCount(users, suggested.id),
-      }))
-    : []
-
   let left
   if (!isLoggedIn) {
     left = <WelcomeCard />
@@ -72,16 +60,8 @@ export default function HomePage() {
     left = <Skeleton className="h-64 w-full rounded-xl" />
   }
 
-  const right =
-    isLoggedIn && user ? (
-      <WhoToFollow
-        users={suggestedUsers}
-        onFollow={(targetId) => toggleFollow(user.id, targetId)}
-      />
-    ) : undefined
+  const right = isLoggedIn && user ? <FollowSuggestions currentUser={user} /> : undefined
 
-  // تا وقتی پست‌ها و کاربران نیامده‌اند Skeleton نشان بده؛
-  // بعد از آن، به‌روزرسانی‌های بعدی (مثل ثبت کامنت) لیست را Skeleton نکنند
   const feedLoading = (postsLoading && posts.length === 0) || users.length === 0
 
   return (
@@ -98,7 +78,6 @@ export default function HomePage() {
             likedPostIds={likedPostIds}
             onLike={handleLike}
             onToggleComments={handleToggleComments}
-            // TODO: بعد از merge شدن Dialog نفر ۴، قبل از حذف DeletePostDialog باز شود
             onDelete={isLoggedIn ? deletePost : undefined}
             openCommentsId={openCommentsId}
             renderComments={(post) =>
