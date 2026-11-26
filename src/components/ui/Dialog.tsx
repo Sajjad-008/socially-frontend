@@ -1,30 +1,62 @@
+import { useEffect, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
+import { CloseIcon } from '@/components/icons'
+import IconButton from '@/components/ui/IconButton'
+
 interface DialogProps {
   open: boolean
   onClose: () => void
   title: string
-  children: React.ReactNode
-  footer?: React.ReactNode
+  children: ReactNode
+  footer?: ReactNode
 }
 
 export default function Dialog({ open, onClose, title, children, footer }: DialogProps) {
-  if (open === false) return null
-  return (
+  useEffect(() => {
+    if (!open) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', handleKeyDown)
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = previousOverflow
+    }
+  }, [open, onClose])
+
+  if (!open) return null
+
+  return createPortal(
     <div
-      className="fixed inset-0 bg-black/70 flex items-center justify-center"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose()
-      }}
-      onKeyDown={(e) => {
-        if (e.key === 'Escape') onClose()
+      className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose()
       }}
     >
-      <div className="bg-bg p-6 border rounded-lg min-w-125 flex flex-col gap-4">
-        <div className="flex items-center">
-          <h2 className="text-lg font-bold">{title}</h2>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        className="flex w-full max-w-[500px] flex-col gap-4 rounded-lg border border-border bg-card p-6 text-content"
+      >
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-bold">{title}</h2>
+          <IconButton
+            variant="close"
+            aria-label="Close dialog"
+            onClick={onClose}
+            icon={<CloseIcon />}
+          />
         </div>
-        <div className="flex flex-col gap-2 text-content-muted">{children}</div>
-        {footer}
+        <div className="text-sm text-content-muted">{children}</div>
+        {footer && <div className="flex justify-end gap-3">{footer}</div>}
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

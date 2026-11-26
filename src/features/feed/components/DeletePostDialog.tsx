@@ -1,5 +1,5 @@
+import Button from '@/components/ui/Button'
 import Dialog from '@/components/ui/Dialog'
-import DialogDeleteFooter from '@/features/dialogFooters/DialogDeleteFooter'
 
 interface DeletePostDialogProps {
   open: boolean
@@ -12,15 +12,31 @@ export default function DeletePostDialog({
   onClose,
   onConfirm,
 }: DeletePostDialogProps) {
-  if (!open) return null
+  function handleConfirm() {
+    onConfirm()
+    onClose()
+  }
+
   return (
     <Dialog
       open={open}
       onClose={onClose}
       title="Delete Post"
-      footer={DialogDeleteFooter({ onClose, onConfirm })}
+      footer={
+        <>
+          <Button variant="secondary" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            className="bg-danger text-white hover:bg-danger/90"
+            onClick={handleConfirm}
+          >
+            Delete
+          </Button>
+        </>
+      }
     >
-      This action can not be undone
+      This Action Can not be undone
     </Dialog>
   )
 }
