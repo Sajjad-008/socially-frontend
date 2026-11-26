@@ -27,6 +27,7 @@ export function WhoToFollow({ users, onFollow }: WhoToFollowProps) {
               username={user.username}
               avatarUrl={user.avatarUrl}
               subtitle={`${user.followersCount} followers`}
+              to={`/users/${user.id}`}
             />
             <Button variant="tertiary" size="s" onClick={() => onFollow?.(user.id)}>
               Follow
