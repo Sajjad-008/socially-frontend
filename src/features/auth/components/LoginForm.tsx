@@ -44,13 +44,19 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
 
   function updateEmail(value: string) {
     setEmail(value)
-    setErrors((currentErrors) => ({ ...currentErrors, email: undefined }))
+    setErrors((currentErrors: AuthValidationErrors) => ({
+      ...currentErrors,
+      email: undefined,
+    }))
     setFormError('')
   }
 
   function updatePassword(value: string) {
     setPassword(value)
-    setErrors((currentErrors) => ({ ...currentErrors, password: undefined }))
+    setErrors((currentErrors: AuthValidationErrors) => ({
+      ...currentErrors,
+      password: undefined,
+    }))
     setFormError('')
   }
 
