@@ -1,9 +1,10 @@
 import type { Post, User } from '@/types'
+import type { ReactNode } from 'react'
 import UserBadge from '@/components/shared/UserBadge'
 import SocialAction from '@/components/ui/SocialAction'
 import IconButton from '@/components/ui/IconButton'
 import { TrashIcon } from '@/components/icons'
-import type { ReactNode } from 'react'
+import formatRelativeTime from '@/utils/formatRelativeTime'
 
 interface PostCardProps {
   post: Post
@@ -13,9 +14,7 @@ interface PostCardProps {
   onLike: () => void
   onToggleComments: () => void
   onDelete?: () => void
-  /** کامنت‌ها باز است؟ دکمه کامنت را انتخاب‌شده نشان می‌دهد. */
   commentsOpen?: boolean
-  /** محتوای اضافه زیر دکمه‌ها (مثل CommentSection) */
   children?: ReactNode
 }
 
@@ -33,7 +32,11 @@ function PostCard({
   return (
     <article className="border-b border-border bg-card p-4">
       <div className="flex items-start justify-between gap-3">
-        <UserBadge user={author} meta={post.createdAt} />
+        <UserBadge
+          user={author}
+          meta={formatRelativeTime(post.createdAt)}
+          layout="inline"
+        />
 
         {isOwn && onDelete && (
           <IconButton
