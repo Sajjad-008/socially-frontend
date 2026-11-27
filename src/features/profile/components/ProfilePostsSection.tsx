@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { HeartIcon, PostIcon } from '@/components/icons'
-import Card from '@/components/ui/Card'
 import EmptyState from '@/components/ui/EmptyState'
 import Tabs from '@/components/ui/Tabs'
+import DeletePostDialog from '@/features/feed/components/DeletePostDialog'
 import PostComments from '@/features/feed/components/PostComments'
 import PostList from '@/features/feed/components/PostList'
 import { usePostsStore } from '@/store/postsStore'
@@ -28,6 +28,7 @@ export default function ProfilePostsSection({
 }: ProfilePostsSectionProps) {
   const [tab, setTab] = useState<TabId>('posts')
   const [openCommentsId, setOpenCommentsId] = useState<string | null>(null)
+  const [postToDelete, setPostToDelete] = useState<string | null>(null)
 
   const posts = usePostsStore((state) => state.posts)
   const loading = usePostsStore((state) => state.loading)
@@ -67,31 +68,37 @@ export default function ProfilePostsSection({
           message={tab === 'posts' ? 'No Posts to Show' : 'No Liked Posts to Show'}
         />
       ) : (
-        <Card className="overflow-hidden">
-          <PostList
-            posts={visiblePosts}
-            users={users}
-            currentUserId={currentUser.id}
-            loading={isInitialLoading}
-            likedPostIds={likedPostIds}
-            onLike={(postId) => toggleLike(postId, currentUser.id)}
-            onToggleComments={(postId) =>
-              setOpenCommentsId((current) => (current === postId ? null : postId))
-            }
-            onDelete={isOwnProfile ? deletePost : undefined}
-            openCommentsId={openCommentsId}
-            renderComments={(post) => (
-              <PostComments
-                className="mt-3"
-                postId={post.id}
-                currentUser={currentUser}
-                users={users}
-                onCommentAdded={fetchPosts}
-              />
-            )}
-          />
-        </Card>
+        <PostList
+          posts={visiblePosts}
+          users={users}
+          currentUserId={currentUser.id}
+          loading={isInitialLoading}
+          likedPostIds={likedPostIds}
+          onLike={(postId) => toggleLike(postId, currentUser.id)}
+          onToggleComments={(postId) =>
+            setOpenCommentsId((current) => (current === postId ? null : postId))
+          }
+          onDelete={isOwnProfile ? setPostToDelete : undefined}
+          openCommentsId={openCommentsId}
+          renderComments={(post) => (
+            <PostComments
+              className="mt-4"
+              postId={post.id}
+              currentUser={currentUser}
+              users={users}
+              onCommentAdded={fetchPosts}
+            />
+          )}
+        />
       )}
+
+      <DeletePostDialog
+        open={postToDelete !== null}
+        onClose={() => setPostToDelete(null)}
+        onConfirm={() => {
+          if (postToDelete) deletePost(postToDelete)
+        }}
+      />
     </div>
   )
 }
