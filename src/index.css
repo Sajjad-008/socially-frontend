@@ -7,6 +7,8 @@
   --color-brand-secondary: #7e97c0;
   --color-brand-tertiary: #8d9cb5;
   --color-danger: #ef4444;
+  --color-overlay: #00000099;
+  --shadow-btn-secondary: 0px 1px 2px -1px #0000001a, 0px 1px 3px 0px #0000001a;
   --font-sans: Arial, sans-serif;
   --font-mono: Consolas, monospace;
 }
@@ -73,4 +75,31 @@
     color: var(--content);
     font-family: var(--font-sans);
   }
+  html {
+    scrollbar-gutter: stable;
+  }
+}
+@keyframes dialog-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@theme {
+  --animate-dialog-fade: dialog-fade-in 200ms ease-out;
+  --animate-dialog-pop: dialog-pop-in 200ms ease-out;
 }
