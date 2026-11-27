@@ -44,9 +44,12 @@ export default function CommentSection({
         </div>
       ) : (
         items.length > 0 && (
-          <ul className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-3">
             {items.map(({ comment, author }) => (
-              <li key={comment.id} className="flex items-start gap-3">
+              <li
+                key={comment.id}
+                className="flex items-start gap-3 rounded-lg border border-border bg-card p-3"
+              >
                 <Avatar name={author.name} src={author.avatarUrl} />
                 <div className="flex min-w-0 flex-col gap-1">
                   <div className="flex flex-wrap items-center gap-x-2 text-xs">

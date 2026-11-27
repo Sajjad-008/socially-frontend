@@ -1,7 +1,8 @@
+import type { ReactNode } from 'react'
+import EmptyState from '@/components/ui/EmptyState'
+import Skeleton from '@/components/ui/Skeleton'
 import type { Post, User } from '@/types'
 import PostCard from './PostCard'
-import Skeleton from '@/components/ui/Skeleton'
-import EmptyState from '@/components/ui/EmptyState'
 
 interface PostListProps {
   posts: Post[]
@@ -12,6 +13,8 @@ interface PostListProps {
   onLike: (postId: string) => void
   onToggleComments: (postId: string) => void
   onDelete?: (postId: string) => void
+  openCommentsId?: string | null
+  renderComments?: (post: Post) => ReactNode
 }
 
 function PostList({
@@ -23,12 +26,17 @@ function PostList({
   onLike,
   onToggleComments,
   onDelete,
+  openCommentsId = null,
+  renderComments,
 }: PostListProps) {
   if (loading) {
     return (
-      <div className="space-y-4 p-4">
+      <div className="flex flex-col gap-4">
         {Array.from({ length: 3 }).map((_, index) => (
-          <div key={index} className="space-y-3">
+          <div
+            key={index}
+            className="space-y-3 rounded-xl border border-border bg-card p-6"
+          >
             <Skeleton className="h-10 w-40" />
             <Skeleton className="h-16 w-full" />
             <Skeleton className="h-8 w-24" />
@@ -39,15 +47,16 @@ function PostList({
   }
 
   if (posts.length === 0) {
-    return <EmptyState message="No posts yet" />
+    return <EmptyState message="No posts to show" />
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       {posts.map((post) => {
         const author = users.find((user) => user.id === post.authorId)
-
         if (!author) return null
+
+        const isOpen = openCommentsId === post.id
 
         return (
           <PostCard
@@ -59,7 +68,10 @@ function PostList({
             onLike={() => onLike(post.id)}
             onToggleComments={() => onToggleComments(post.id)}
             onDelete={onDelete ? () => onDelete(post.id) : undefined}
-          />
+            commentsOpen={isOpen}
+          >
+            {isOpen && renderComments?.(post)}
+          </PostCard>
         )
       })}
     </div>

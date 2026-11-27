@@ -11,6 +11,8 @@ import Drawer from '@/components/ui/Drawer'
 import IconButton from '@/components/ui/IconButton'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import { useSession } from '@/hooks/useSession'
+import ProfileSummaryCard from '@/components/shared/ProfileSummaryCard'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 interface NavItem {
   to: string
@@ -32,6 +34,7 @@ const signInClass =
 
 export default function Navbar() {
   const { isLoggedIn } = useSession()
+  const { user, followersCount } = useCurrentUser()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const items = NAV_ITEMS.filter((item) => !item.requiresAuth || isLoggedIn)
@@ -86,7 +89,13 @@ export default function Navbar() {
             </Link>
           )}
         </nav>
-        {/* TODO: ProfileSummaryCard برای کاربر واردشده اینجا اضافه شود */}
+        {isLoggedIn && user && (
+          <ProfileSummaryCard
+            user={user}
+            followersCount={followersCount}
+            className="mt-4"
+          />
+        )}
       </Drawer>
     </header>
   )
