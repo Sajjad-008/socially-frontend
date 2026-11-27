@@ -1,7 +1,7 @@
 import type { Notification } from '@/types'
 import { notifications as mockNotifications } from '@/mocks/notifications'
 
-let notifications: Notification[] = [...mockNotifications]
+const notifications: Notification[] = [...mockNotifications]
 
 const delay = () => new Promise<void>((resolve) => setTimeout(resolve, 300))
 
