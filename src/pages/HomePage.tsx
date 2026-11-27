@@ -12,6 +12,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useSession } from '@/hooks/useSession'
 import { usePostsStore } from '@/store/postsStore'
 import { useUsersStore } from '@/store/usersStore'
+import DeletePostDialog from '@/features/feed/components/DeletePostDialog'
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -28,6 +29,8 @@ export default function HomePage() {
   const deletePost = usePostsStore((state) => state.deletePost)
 
   const [openCommentsId, setOpenCommentsId] = useState<string | null>(null)
+
+  const [postToDelete, setPostToDelete] = useState<string | null>(null)
 
   useEffect(() => {
     fetchPosts()
@@ -76,7 +79,7 @@ export default function HomePage() {
           likedPostIds={likedPostIds}
           onLike={handleLike}
           onToggleComments={handleToggleComments}
-          onDelete={isLoggedIn ? deletePost : undefined}
+          onDelete={isLoggedIn ? setPostToDelete : undefined}
           openCommentsId={openCommentsId}
           renderComments={(post) =>
             user ? (
@@ -89,6 +92,13 @@ export default function HomePage() {
               />
             ) : null
           }
+        />
+        <DeletePostDialog
+          open={postToDelete !== null}
+          onClose={() => setPostToDelete(null)}
+          onConfirm={() => {
+            if (postToDelete) deletePost(postToDelete)
+          }}
         />
       </div>
     </AppLayout>
