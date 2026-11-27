@@ -23,36 +23,42 @@ export default function NotificationItem({
 
   return (
     <div
-      className={`flex items-start gap-4 p-4 border-b ${read ? '' : 'bg-content-opposite dark:bg-content'}`}
+      className={`flex items-start gap-4 border-b border-border p-4 last:border-b-0 ${
+        read ? '' : 'bg-btn-tertiary/40'
+      }`}
     >
-      <Avatar size="lg" src={actor.avatarUrl} name={actorName} />
+      <Avatar size="sm" src={actor.avatarUrl} name={actorName} />
 
-      {isComment ? (
-        <ChatIcon size={16} className="text-brand mt-1" />
-      ) : (
-        <HeartIcon size={16} className="text-danger mt-1" />
-      )}
-
-      <div className="flex flex-col gap-2 flex-1 min-w-0">
-        <div className="text-content dark:text-content-opposite flex items-center">
-          <span>
+      <div className="flex min-w-0 flex-1 flex-col gap-2">
+        <div className="flex items-center gap-2 text-sm text-content">
+          {isComment ? (
+            <ChatIcon size={16} className="shrink-0 text-brand" />
+          ) : (
+            <HeartIcon size={16} className="shrink-0 text-danger" />
+          )}
+          <span className="min-w-0">
             <span className="font-semibold">{actorName}</span>
             {isComment ? ' commented on your post' : ' liked your post'}
           </span>
-          {!read && <div className="w-2 h-2 bg-brand rounded-full ml-auto shrink-0" />}
+          {!read && (
+            <span
+              className="ml-auto size-2 shrink-0 rounded-full bg-brand"
+              aria-label="Unread"
+            />
+          )}
         </div>
 
-        <div className="bg-border/25 text-sm text-content-muted rounded-md p-2 line-clamp-2">
+        <div className="line-clamp-2 rounded-md bg-btn-tertiary/40 p-2 text-sm text-content-muted">
           {post ? post.text : <span className="italic">This post was deleted</span>}
         </div>
 
         {isComment && commentText && (
-          <div className="text-sm bg-border/80 text-content dark:text-content-opposite rounded-md p-2">
+          <div className="rounded-md bg-btn-tertiary p-2 text-sm text-content">
             {commentText}
           </div>
         )}
 
-        <div className="text-sm text-content-muted">{formatRelativeTime(createdAt)}</div>
+        <div className="text-xs text-content-muted">{formatRelativeTime(createdAt)}</div>
       </div>
     </div>
   )
