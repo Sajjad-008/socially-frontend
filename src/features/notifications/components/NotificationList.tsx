@@ -45,10 +45,10 @@ export default function NotificationList({
   const initialLoading = loading && notifications.length === 0
 
   return (
-    <div className="border rounded-xl">
-      <div className="flex border-b align-middle p-4">
-        <span className="font-bold">Notifications</span>
-        <span className="ml-auto text-sm">{unreadCount} unread</span>
+    <div className="rounded-xl border border-border">
+      <div className="flex items-center border-b border-border p-4">
+        <span className="font-bold text-content">Notifications</span>
+        <span className="ml-auto text-sm text-content-muted">{unreadCount} unread</span>
       </div>
 
       {initialLoading ? (
@@ -58,7 +58,7 @@ export default function NotificationList({
           ))}
         </div>
       ) : notifications.length === 0 ? (
-        <div className="flex justify-center items-center h-32 text-content-muted">
+        <div className="flex h-32 items-center justify-center text-content-muted">
           No notifications
         </div>
       ) : (
@@ -82,7 +82,7 @@ export default function NotificationList({
 
           {!hasMore && (
             <div className="flex justify-center p-4 text-sm text-content-muted">
-              You're all caught up
+              You&apos;re all caught up
             </div>
           )}
         </div>
